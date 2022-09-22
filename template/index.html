@@ -1,0 +1,220 @@
+{% extends './base.html' %}
+{% load static %}
+{% block content %}
+<div class="card-box pd-20 height-100-p mb-30">
+	<div class="row align-items-center">
+		<div class="col-md-4">
+			<img src="{% static 'vendors/images/banner-img.png' %}" alt="">
+		</div>
+		<div class="col-md-8">
+			<h4 class="font-20 weight-500 mb-10 text-capitalize">
+				Welcome back <div class="weight-600 font-30 text-blue">{{request.session.username}}!</div>
+			</h4>
+			<p class="font-18 max-width-600">On this site you can locate a person just using a cell phone number or sending a link.</p>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xl-3 mb-30">
+		<div class="card-box height-100-p widget-style1">
+			<div class="d-flex flex-wrap align-items-center">
+				<div class="progress-data">
+					<div id="chart"></div>
+				</div>
+				<div class="widget-data">
+					<div class="h4 mb-0">247</div>
+					<div class="weight-600 font-14">Users</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-3 mb-30">
+		<div class="card-box height-100-p widget-style1">
+			<div class="d-flex flex-wrap align-items-center">
+				<div class="progress-data">
+					<div id="chart2"></div>
+				</div>
+				<div class="widget-data">
+					<div class="h4 mb-0">400</div>
+					<div class="weight-600 font-14">Deals</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-3 mb-30">
+		<div class="card-box height-100-p widget-style1">
+			<div class="d-flex flex-wrap align-items-center">
+				<div class="progress-data">
+					<div id="chart3"></div>
+				</div>
+				<div class="widget-data">
+					<div class="h4 mb-0">350</div>
+					<div class="weight-600 font-14">Campaign</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-3 mb-30">
+		<div class="card-box height-100-p widget-style1">
+			<div class="d-flex flex-wrap align-items-center">
+				<div class="progress-data">
+					<div id="chart4"></div>
+				</div>
+				<div class="widget-data">
+					<div class="h4 mb-0">$6060</div>
+					<div class="weight-600 font-14">Worth</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.chart {
+	  max-width: 600px;
+	  max-height: 400px;
+	}
+
+	canvas {
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+	}
+</style>
+
+
+<div class="row">
+	<div class="col-xl-8 mb-30">
+		<div class="card-box height-100-p pd-20">
+			<h2 class="h4 mb-20">Account speed</h2>
+			<div class="chart">
+			  <canvas id="chart_"></canvas>
+			</div>
+			  <canvas id="chart2"></canvas>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-4 mb-30">
+	</div>
+</div>
+
+<!-- <div class="row">
+				<div class="col-xl-8 mb-30">
+					<div class="card-box height-100-p pd-20">
+						<h2 class="h4 mb-20">Activity</h2>
+						<div id="chart5"></div>
+					</div>
+				</div>
+				<div class="col-xl-4 mb-30">
+					<div class="card-box height-100-p pd-20">
+						<h2 class="h4 mb-20">Lead Target</h2>
+						<div id="chart6"></div>
+					</div>
+				</div>
+			</div> -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0-beta/dist/chart.min.js"></script>
+<script>
+
+		var ctx = document.getElementById("chart_").getContext("2d");
+		var chart = new Chart(ctx, {
+		  type: "line",
+		  data: {
+		    labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13],
+		    datasets: [
+		      {
+		        backgroundColor: "rgb(255, 99, 132, 0.5)",
+		        borderColor: "rgb(255, 99, 132)",
+		        borderWidth: 1,
+		        data: [1,5,6,7,25,30,40,65,89,100,120,140,150]
+		      }
+		    ]
+		  },
+		  options: {
+		    animation: {
+		      x: {
+		        duration: 5000,
+		        from: 0
+		      },
+		      y: {
+		        duration: 3000,
+		        from: 500
+		      }
+		    }
+		  }
+		});
+
+		var data = [];
+		var prev = 100;
+		for (var i=0;i<1000;i++) {
+		  prev += 5 - Math.random()*10;
+		  data.push({x: i, y: prev});
+		}
+
+		var delayBetweenPoints = 10;
+		var started = {};
+		var ctx2 = document.getElementById("chart2_").getContext("2d");
+		var chart2 = new Chart(ctx2, {
+		  type: "line",
+		  data: {
+		    datasets: [
+		      {
+		        backgroundColor: "transparent",
+		        borderColor: "rgb(255, 99, 132)",
+		        borderWidth: 1,
+		        pointRadius: 0,
+		        data: data,
+		        fill: true,
+		        animation: (context) => {
+		          var delay = 0;
+		          var index = context.dataIndex;
+		          var chart = context.chart;
+		          if (!started[index]) {
+		            delay = index * delayBetweenPoints;
+		            started[index] = true;
+		          }
+		          var {x,y} = index > 0 ? chart.getDatasetMeta(0).data[index-1].getProps(['x','y'], true) : {x: 0, y: chart.scales.y.getPixelForValue(100)};
+		          
+		          return {
+		            x: {
+		              easing: "linear",
+		              duration: delayBetweenPoints,
+		              from: x,
+		              delay
+		            },
+		            y: {
+		              easing: "linear",
+		              duration: delayBetweenPoints * 500,
+		              from: y,
+		              delay
+		            },
+		            skip: {
+		              type: 'boolean',
+		              duration: delayBetweenPoints,
+		              from: true,
+		              to: false,
+		              delay: delay
+		            }
+		          };
+		        }
+		      }
+		    ]
+		  },
+		  options: {
+		    scales: {
+		      x: {
+		        type: 'linear'
+		      }
+		    }
+		  },
+		  plugins: [{
+		    id: 'force_line_update',
+		    beforeDatasetDraw(chart, ctx) {
+		      ctx.meta.dataset.points = ctx.meta.data;
+		    }
+		  }]
+		});
+
+
+
+	</script>
+{% endblock %}

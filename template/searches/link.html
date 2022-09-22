@@ -1,0 +1,102 @@
+{% extends '../base.html' %}
+{% block content %}
+
+
+<form class="form">
+	<div class="form-group row">
+		<label class="col-sm-12 col-md-2 col-form-label">Name of individual</label>
+		<div class="col-sm-12 col-md-10">
+			<input class="form-control" type="text" name="name" placeholder="Johnny Brown">
+		</div>
+	</div>
+	<div class="form-group row">
+		<label class="col-sm-12 col-md-2 col-form-label">Number Phone</label>
+		<div class="col-sm-12 col-md-10">
+			<input class="form-control" placeholder="Search Here" name="phone" type="search">
+		</div>
+	</div>
+	<div class="form-group row">
+		<label class="col-sm-12 col-md-2 col-form-label">Redirect</label>
+		<div class="col-sm-12 col-md-10">
+			<select name="redirect" class="custom-select col-12">
+				<option selected="" disabled>Choose...</option>
+				<option value="1">Whatsapp</option>
+				<option value="2">Facebook</option>
+				<option value="3">Google</option>
+				<option value="4">Twitter</option>
+				<option value="5">Instagram</option>
+				<option value="6">Telegram</option>
+				<option value="7">Amazon</option>
+				<option value="8">MercadoLibre</option>
+			</select>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label class="col-sm-12 col-md-2 col-form-label"></label>
+		<div class="col-sm-12 col-md-10">
+			<button class="btn btn-primary btn-lg send_information">
+				Send Information
+			</button>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label class="col-sm-12 col-md-2 col-form-label">Copia el enlace</label>
+		<div class="col-sm-12 col-md-10">
+			<input type="text" name="" class="form-control" id="link_search" disabled><br><button class="btn btn-outline-primary" id="copy">Copiar</button>
+		</div>
+	</div>
+	<div class="form-group row">
+	</div>
+	<div class="form-group row">
+	</div>
+	<div class="form-group row">
+	</div>
+	<div class="form-group row">
+	</div>
+	<div class="form-group row">
+	</div>
+	<div class="form-group row">
+	</div>
+	<div class="form-group row">
+	</div>
+	<div class="form-group row">
+	</div>
+	<div class="form-group row">
+	</div>
+	<div class="form-group row">
+	</div>
+	<br><br>
+	<br><br><br><br>
+</form>
+							
+
+{% endblock %}
+{% block script %}
+
+<script>
+	$(".send_information").click(function(e){
+		e.preventDefault()
+		form = $(".form").serialize()
+		$.ajax({
+			data:form,
+			success:function(data){
+				console.log(data)
+				$("#link_search").val(data)
+				$('#link_search').prop('disabled',false)
+			}
+		})
+
+	})
+
+	$("#copy").click(function(e){
+		e.preventDefault()
+		content = $("#link_search").select()
+		console.log(content)
+		document.execCommand("copy")
+		$('#link_search').prop('disabled',true)
+	})
+
+
+</script>
+
+{% endblock %}
