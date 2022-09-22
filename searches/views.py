@@ -60,6 +60,12 @@ def Capture_Data(request,token,phone,url_redirect):
 		user.search_limit = n
 		user.save()
 		data = Locate(lat,lng)
+		coord = str(lat)+','+str(lng)
+		reality = Locate_(coord)
+		print(reality)
+		lat = reality['data'][0]['latitude']
+		lng = reality['data'][0]['longitude']
+		# print('https://www.openstreetmap.org/export/embed.html?bbox='+str(lng)+','+str(lat)+','+str(lng)+','+str(lat)+'&layer=mapnik&marker='+str(lat)+','+str(lng))
 		History(
 			city = data['city'],
 			city_district = data['city_district'],
